@@ -18,6 +18,7 @@ try {
   process.exit(1);
 }
 
+// Initialize Sequelize
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -29,4 +30,20 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   }
 });
 
-module.exports = sequelize;
+// Function to sync database schema
+const syncDatabase = async () => {
+  try {
+    // Sync the database schema
+    await sequelize.sync({ alter: true }); // `alter: true` applies schema changes without dropping tables
+    console.log('Database schema synchronized successfully');
+  } catch (error) {
+    console.error('Error synchronizing database schema:', error);
+    process.exit(1);
+  }
+};
+
+// Export sequelize and syncDatabase
+module.exports = {
+  sequelize,
+  syncDatabase
+};
