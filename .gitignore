@@ -24,6 +24,7 @@ Thumbs.db
 # Test coverage
 coverage/
 
+
 # Build files
 dist/
 build/
@@ -74,3 +75,5 @@ ehthumbs.db
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/
+ #remove certificate from repo 
+ cert.pem
