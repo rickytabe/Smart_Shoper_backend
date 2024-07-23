@@ -9,10 +9,16 @@ const app = express();
 
 app.use(bodyParser.json());
 
+// Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/recommendations', require('./routes/recommendationRoutes'));
+
+// Root Route
+app.get('/', (req, res) => {
+  res.send('Welcome to the Smart Shopper API!');
+});
 
 const PORT = process.env.PORT || 5000;
 
