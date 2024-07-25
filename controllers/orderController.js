@@ -11,9 +11,18 @@ exports.createOrder = async (req, res) => {
 
   try {
     const order = await Order.create({ userId: req.userId, total: 0 });
-    let total = 0;
-
+    let total = 0
+    // Check if items is an array
+   if (!Array.isArray(items)) {
+      return res.status(400).json({ message: 'Invalid items format. Items must be an array.' });
+      }
+    
     for (const item of items) {
+      // Check if price is present
+      if (!item.price) {
+        return res.status(400).json({ message: 'Price is required for each item.' });
+      }
+
       const orderItem = await OrderItem.create({ orderId: order.id, ...item });
       total += orderItem.price * orderItem.quantity;
     }
