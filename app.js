@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const sequelize = require('./config/db').sequelize;
+const models = require('./models'); // Import models to initialize associations
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/recommendations', require('./routes/recommendationRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
 
 // Root Route
 app.get('/', (req, res) => {
@@ -22,6 +24,7 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
+// Sync database and then start server
 sequelize.sync().then(() => {
   if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {

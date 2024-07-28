@@ -1,6 +1,9 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db').sequelize;
 const User = require('./User');
+const Product = require('./Product');
+
+
 
 const Order = sequelize.define('Order', {
   total: {
@@ -14,7 +17,5 @@ const Order = sequelize.define('Order', {
 }, {
   timestamps: true
 });
-
-Order.belongsTo(User, { foreignKey: 'userId' });
 
 module.exports = Order;

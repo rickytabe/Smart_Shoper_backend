@@ -24,7 +24,8 @@ const registerUser = async (req, res) => {
     const newUser = await User.create({ username, email, password: hashedPassword });
 
     // Generate token
-    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+    //const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign({ user: { id: newUser.id } }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
 
     res.status(201).json({ token });
   } catch (error) {
@@ -54,15 +55,17 @@ const loginUser = async (req, res) => {
     }
 
     // Generate token
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
-
+    //const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+    //const token = jwt.sign({ user: { id: newUser.id } }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign({ user: { id: user.id } }, process.env.JWT_SECRET_KEY, { expiresIn: '3h' });
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
 };
 
+
 module.exports = {
   registerUser,
-  loginUser
+  loginUser,
 };
