@@ -1,12 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const cors = require('cors'); // Import cors
 const sequelize = require('./config/db').sequelize;
 const models = require('./models'); // Import models to initialize associations
 
 dotenv.config();
 
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 
 app.use(bodyParser.json());
 
