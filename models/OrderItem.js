@@ -1,7 +1,9 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db').sequelize;
-const Order = require('./Order');
-const Product = require('./Product');
+const {Orders, Products} = require('../models');
+
+
+
 
 const OrderItem = sequelize.define('OrderItem', {
   quantity: {
@@ -11,9 +13,26 @@ const OrderItem = sequelize.define('OrderItem', {
   price: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false
+  },
+  orderId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'Orders', // name of the Orders model
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
+  productId:{
+    type: DataTypes.INTEGER,
+    references:{
+      model:'Products',
+      key:'id'
+    }
   }
-}, {
+
+},{
   timestamps: true
-});
+})
 
 module.exports = OrderItem;

@@ -1,25 +1,28 @@
+// server/controllers/recommendationController.js
+
 const { generateRecommendations } = require('../utils/recommendationUtils');
-/*const { Order, Product } = require('../models');*/
-const Order = require('../models/Order');
-const Product = require('../models/Product');
+const { Product } = require('../models'); // Import the Product model
+const { Op } = require('sequelize'); 
 
 
 const getRecommendations = async (req, res) => {
   try {
     const userId = req.user.id; // Assuming user ID is available in the request
 
-    // Fetch user orders
-    const userOrders = await Order.findAll({ where: { userId } });
+    const recommendedProductIds = await generateRecommendations(userId);
 
-    // Fetch all products
-    const allProducts = await Product.findAll();
+    const recommendedProducts = await Product.findAll({
+      where: {
+        id: {
+          [Op.in]: recommendedProductIds
+        }
+      }
+    });
 
-    // Generate recommendations
-    const recommendations = generateRecommendations(userOrders, allProducts);
-
-    res.status(200).json(recommendations);
+    res.json(recommendedProducts);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to get recommendations' });
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
