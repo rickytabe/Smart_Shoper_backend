@@ -8,7 +8,7 @@ const models = require('./models'); // Import models to initialize associations
 dotenv.config();
 
 const app = express();
-const allowedOrigins = ['http://localhost:5173']
+const allowedOrigins = ['http://localhost:5173', 'https://smartshoppercameroon.web.app']
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1 ) { // Allow requests with no origin (like mobile apps or Postman) or from allowed origins
